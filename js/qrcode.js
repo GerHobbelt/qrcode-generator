@@ -1587,7 +1587,8 @@ var qrcode = function() {
 	};
 
 	var createImgTag = function(width, height, getPixel, alt) {
-
+		width = parseInt(width, 10);
+		height = parseInt(height, 10);
 		var gif = gifImage(width, height);
 		for (var y = 0; y < height; y += 1) {
 			for (var x = 0; x < width; x += 1) {
