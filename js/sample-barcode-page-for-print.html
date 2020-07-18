@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=Utf-8">
+    <script type="text/javascript" src="qrcode.js"></script>
+    <!-- SJIS Support (optional) -->
+    <script type="text/javascript" src="qrcode_SJIS.js"></script>
+<!--
+    <script type="text/javascript" src="qrcode_SJIS.js"></script>
+-->
+    <!-- Uncomment to encode string in qrcode as UTF8 (optional) -->
+    <script type="text/javascript" src="qrcode_UTF8.js"></script>
+    <script type="text/javascript" src="sample-barcode-page-for-print.js"></script>
+    <title>QR Code Generator for JavaScript</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
+    <style>
+      form {
+        border: 1px solid black;
+        padding: 0.5em 1em;
+      }
+      form div {
+        margin: 0.5em 0;
+      }
+
+      pre.qrcode {
+        color: white;
+        background-color: black;
+        font-size: 25%;
+      }
+      html {
+        padding: 1em 1em;
+      }
+      table.A4 {
+        font-family: 'Source Sans Pro', sans-serif;
+        font-size: 270%;
+        line-height: 0.75em;
+
+        border-collapse: collapse;
+        padding: 0;
+        border: 1px white solid;
+      }
+      tbody {
+        padding: 0;
+        margin: 0;
+        border: 1px white solid;
+      }
+      tr {
+        padding: 0;
+        margin: 0;
+        border: 1px white solid;
+      }
+      td {
+        padding: 0;
+        margin: 0;
+        border: 1px white solid;
+      }
+      tr.odd td {
+        border-bottom-color: #ddd;
+      }
+      td svg {
+        padding: 0;
+        margin: 0;
+        border: 1px white solid;
+      }
+      td.human-readable {
+        width: 3em;
+      }
+
+      @media print {    
+        @page {
+          size: A4; /* DIN A4 standard, Europe */
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+        html, body {
+            width: 210mm;
+            height: 297mm;
+            font-size: 10pt;
+            background: #FFF;
+            overflow: visible;
+        }
+        html {
+          border: 1px white solid;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+        body {
+          border: 1px white solid;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+        form {
+          display: none !important;
+        }
+        table.A4 {
+          font-size: 180% !important;
+          line-height: 0.5em !important;
+
+          margin-left: 20pt;
+          margin-top: 31pt;
+        }
+        td svg {
+          width: 30pt;
+          height: 29.7pt;
+        }
+        td.human-readable {
+          width: 82pt;
+        }
+      }
+
+    </style>
+  </head>
+  <body onload="body_loadHander()">
+    <form name="qrForm" id="qrForm">
+      <div>
+        WARNINGS:
+        <ul>
+          <li>Make sure to set up your Epson in A4 paper mode or you're screwed. Chrome does not override printer preferences.
+              </li>
+            <li>Make sure the printer has AS ITS DEFAULT set 'backside tray' set up (NOT tray 1 or tray 2!) or your sticker pages won't be printed and nasty things will happen
+              </li>
+              <li>Print half the rows, then rotate the page 180 degrees and re-insert it into the printer to print the remainder - that's what the sticker rows are for. Epson does some very nasty rescaling and refuses to print till the end of the page, so in order to use all stickers on a 13x5 sticker page, you will need 2 print runs anyway...
+              </li>
+            </ul>
+      </div>
+      <div>
+      <span>TypeNumber:</span>
+      <select name="t"></select>
+      <span>ErrorCorrectionLevel:</span>
+      <select name="e">
+        <option value="L" selected="selected">L(7%)</option>
+        <option value="M">M(15%)</option>
+        <option value="Q">Q(25%)</option>
+        <option value="H">H(30%)</option>
+      </select>
+      <span>Mode:</span>
+      <select name="m">
+        <option value="Numeric">Numeric</option>
+        <option value="Alphanumeric">Alphanumeric</option>
+        <option value="Byte" selected>Byte</option>
+        <option value="Kanji">Kanji</option>
+      </select>
+      <span>Multibyte:</span>
+      <select name="mb">
+        <option value="default">None</option>
+        <option value="SJIS">SJIS</option>
+        <option value="UTF-8" selected>UTF-8</option>
+      </select>
+      </div>
+      <div>
+        <span>Site:</span>
+      <input type="text" name="site" width="100" value="https://st.庙.net/?{row}{col}"></input> <span>(Hint: Encode row &amp; column as <code>{row}</code> and <code>{col}</code>)</span>
+      </div>
+      <div>
+        <span>Row:</span>
+      <input type="text" name="row" width="12" value="A"></input>
+      </div>
+      <div>
+        <span>Col:</span>
+      <input type="text" name="col" width="12" value="1"></input>
+      </div>
+      <div>
+        <span>Sticker Rows:</span>
+      <input type="text" name="lines" width="12" value="7"></input>
+      </div>
+      <div>
+      <input type="button" value="update" onclick="update_qrcode()"/>
+    </div>
+    </form>
+    <div id="qr"></div>
+  </body>
+</html>

@@ -548,7 +548,7 @@ var qrcode = function() {
     _this.createDataURL = function(cellSize, margin) {
 
       cellSize = cellSize || 2;
-      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+      margin = (typeof margin == 'undefined') ? cellSize * 4 : margin;
 
       var size = _this.getModuleCount() * cellSize + margin * 2;
       var min = margin;
